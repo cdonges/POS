@@ -23,17 +23,34 @@ namespace POS.BusinessEntities
 
             var total = GetSaleTotal(results);
 
-            
+            var totalDiscount = GetSaleTotal(results) - salePrice;
+            var remainingDiscount = totalDiscount;
+
+            IEnumerable<SaleItem> remainingItems = results;
+
+            do
+            {
+                foreach (var item in remainingItems)
+                {
+                    // Item Quantity * Item Unit Price * Total Discount/Undiscounted Sale Total 
+                    var itemDiscount = item.Quantity * item.UnitPrice * totalDiscount / total;
+                    var linePrice = Math.Max(item.TotalPrice - itemDiscount, minimumPrices[item.ProductId] * item.Quantity);
+                    var appliedDiscount = Math.Round(item.TotalPrice - linePrice, 2);
+                    item.Discount += appliedDiscount;
+                    remainingDiscount -= appliedDiscount;
+                }
+
+                remainingItems = remainingItems.Where(item => item.TotalPrice > minimumPrices[item.ProductId] * item.Quantity);
+                total = GetSaleTotal(remainingItems);
+                totalDiscount = remainingDiscount;
+            } while (remainingItems.Any() && remainingDiscount > 0.10M);
+
+            if (remainingDiscount > 0 && remainingItems.Any())
+            {
+                GetLargestPrice(results).Discount += remainingDiscount;
+            }
 
             return results;
-        }
-
-        private void Apply(decimal discount, List<SaleItem> input)
-        {
-            foreach (var item in input)
-            {
-
-            }
         }
 
         private List<SaleItem> CloneSaleItems(List<SaleItem> input)
@@ -48,9 +65,19 @@ namespace POS.BusinessEntities
             }).ToList();
         }
 
-        private decimal GetSaleTotal(List<SaleItem> saleItems)
+        private decimal GetSaleTotal(IEnumerable<SaleItem> saleItems)
         {
             return saleItems.Sum(item => item.UnitPrice * item.Quantity);
+        }
+
+        private decimal GetDiscountTotal(IEnumerable<SaleItem> saleItems)
+        {
+            return saleItems.Sum(item => item.Discount);
+        }
+
+        private SaleItem GetLargestPrice(IEnumerable<SaleItem> saleItems)
+        {
+            return saleItems.OrderByDescending(item => item.UnitPrice).First();
         }
     }
 }
