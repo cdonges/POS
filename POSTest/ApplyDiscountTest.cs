@@ -9,15 +9,24 @@ using POS.Models;
 
 namespace POSTest
 {
+    /// <summary>
+    /// Tests based on requirments
+    /// </summary>
     [TestClass]
     public class ApplyDiscountTest
     {
+        /// <summary>
+        /// list of sale items
+        /// </summary>
         private List<SaleItem> _saleItems = new List<SaleItem>() { 
             new SaleItem() { ProductId = 1, Description = "Widget", Quantity = 1, UnitPrice = 1.75M, Discount = 0M },
             new SaleItem() { ProductId = 2, Description = "Gadget", Quantity = 2, UnitPrice = 2.95M, Discount = 0M },
             new SaleItem() { ProductId = 3, Description = "Gizmo", Quantity = 3, UnitPrice = 2.35M, Discount = 0M }
         };
 
+        /// <summary>
+        /// Simple case - no minimums and discount can be allocated
+        /// </summary>
         [TestMethod]
         public void TestMethod1()
         {
@@ -40,6 +49,9 @@ namespace POSTest
             Assert.AreEqual(itemDictionary[3], 4.80M);
         }
 
+        /// <summary>
+        /// One product with a minimum price
+        /// </summary>
         [TestMethod]
         public void TestMethod2()
         {
@@ -62,6 +74,9 @@ namespace POSTest
             Assert.AreEqual(itemDictionary[3], 4.01M);
         }
 
+        /// <summary>
+        /// Total discount cannot be applied
+        /// </summary>
         [TestMethod]
         public void TestMethod3()
         {
@@ -84,6 +99,9 @@ namespace POSTest
             Assert.AreEqual(itemDictionary[3], 4.90M);
         }
 
+        /// <summary>
+        /// There is a rounding error that needs to be applied
+        /// </summary>
         [TestMethod]
         public void TestMethod4()
         {
