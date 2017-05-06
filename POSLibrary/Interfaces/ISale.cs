@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using POS.Models;
+using POSLibrary.Models;
 
-namespace POS.Interfaces
+namespace POSLibrary.Interfaces
 {
     /// <summary>
     /// Sale business object interface

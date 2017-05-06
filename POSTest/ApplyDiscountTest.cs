@@ -3,9 +3,9 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 
-using POS.Interfaces;
-using POS.BusinessEntities;
-using POS.Models;
+using POSLibrary.Interfaces;
+using POSLibrary.BusinessEntities;
+using POSLibrary.Models;
 
 namespace POSTest
 {

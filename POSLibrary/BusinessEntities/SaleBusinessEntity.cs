@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using POS.Models;
-using POS.Interfaces;
+using POSLibrary.Models;
+using POSLibrary.Interfaces;
 
-namespace POS.BusinessEntities
+namespace POSLibrary.BusinessEntities
 {
     /// <summary>
     /// Handle processing of sale items

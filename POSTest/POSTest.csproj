@@ -54,9 +54,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\POS\POS.csproj">
-      <Project>{cfa56cdc-996c-4b78-9862-827689fd0986}</Project>
-      <Name>POS</Name>
+    <ProjectReference Include="..\POSLibrary\POSLibrary.csproj">
+      <Project>{bc366075-4de4-447a-9524-e2806d4616dd}</Project>
+      <Name>POSLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>
