@@ -40,7 +40,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BusinessEntities\SaleBusinessEntity.cs" />
-    <Compile Include="Class1.cs" />
     <Compile Include="Interfaces\ISale.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\SaleItem.cs" />
