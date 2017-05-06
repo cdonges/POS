@@ -33,9 +33,9 @@ namespace POS.BusinessEntities
                 foreach (var item in remainingItems)
                 {
                     // Item Quantity * Item Unit Price * Total Discount/Undiscounted Sale Total 
-                    var itemDiscount = item.Quantity * item.UnitPrice * totalDiscount / total;
+                    var itemDiscount = Math.Round(item.Quantity * item.UnitPrice * totalDiscount / total, 2);
                     var linePrice = Math.Max(item.TotalPrice - itemDiscount, minimumPrices[item.ProductId] * item.Quantity);
-                    var appliedDiscount = Math.Round(item.TotalPrice - linePrice, 2);
+                    var appliedDiscount = item.TotalPrice - linePrice;
                     item.Discount += appliedDiscount;
                     remainingDiscount -= appliedDiscount;
                 }
@@ -47,7 +47,7 @@ namespace POS.BusinessEntities
 
             if (remainingDiscount > 0 && remainingItems.Any())
             {
-                GetLargestPrice(results).Discount += remainingDiscount;
+                GetLargestItem(results).Discount += remainingDiscount;
             }
 
             return results;
@@ -75,9 +75,9 @@ namespace POS.BusinessEntities
             return saleItems.Sum(item => item.Discount);
         }
 
-        private SaleItem GetLargestPrice(IEnumerable<SaleItem> saleItems)
+        private SaleItem GetLargestItem(IEnumerable<SaleItem> saleItems)
         {
-            return saleItems.OrderByDescending(item => item.UnitPrice).First();
+            return saleItems.OrderByDescending(item => item.UnitPrice * item.Quantity).First();
         }
     }
 }
