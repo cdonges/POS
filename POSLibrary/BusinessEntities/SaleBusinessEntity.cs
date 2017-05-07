@@ -28,6 +28,22 @@ namespace POSLibrary.BusinessEntities
         /// <returns>new list of sale items with discount applied</returns>
         public List<SaleItem> ApplyDiscount(decimal salePrice, List<SaleItem> saleItems, List<Product> products)
         {
+            // do some sanity checks, could also throw an exception
+            if (saleItems == null || products == null)
+            {
+                return null;
+            }
+
+            if (saleItems.Count == 0 || products.Count == 0)
+            {
+                return new List<SaleItem>();
+            }
+
+            if (salePrice < 0)
+            {
+                return saleItems;
+            }
+
             // set up a dictionary of minimum prices
             minimumPrices = products.ToDictionary(product => product.ProductId, product => product.MinimumPrice);
 
